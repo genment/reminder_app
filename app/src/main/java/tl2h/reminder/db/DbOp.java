@@ -30,9 +30,10 @@ public class DbOp {
      */
     public void addAlarm(AlarmObject ao) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
-        db.execSQL("INSERT INTO alarm(title, minutes, lastAlarm, enable) VALUES( ?, ?, date('now'), 1)",
+        db.execSQL("INSERT INTO alarm(title, minutes, lastAlarm, enable) VALUES( ?, ?, ?, 1)",
                 new Object[]{
                         ao.getTitle(),
+                        ao.getLastAlarm(),
                         ao.getMinutes()
                 });
         db.close();
@@ -57,11 +58,11 @@ public class DbOp {
     /**
      * delete
      */
-    public void removeAlarm(AlarmObject ao) {
+    public void removeAlarm(int id) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
         db.execSQL("DELETE FROM alarm WHERE _id = ?",
                 new Integer[]{
-                        ao.getId()
+                        id
                 });
         db.close();
     }
@@ -167,8 +168,8 @@ public class DbOp {
         AlarmObject entity = new AlarmObject();
         entity.setId(cursor.getInt(0));
         entity.setTitle(cursor.getString(1));
-        entity.setMinutes(cursor.getInt(2));
-        entity.setLastAlarm(cursor.getInt(3));
+        entity.setMinutes(cursor.getInt(3));
+        entity.setLastAlarm(cursor.getInt(2));
         entity.setEnable(cursor.getInt(4) == 1);
 
         if (closeCursor)
