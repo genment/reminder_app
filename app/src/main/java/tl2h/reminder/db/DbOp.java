@@ -28,7 +28,7 @@ public class DbOp {
     /**
      * add
      */
-    public void addBlack(AlarmObject ao) {
+    public void addAlarm(AlarmObject ao) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
         db.execSQL("INSERT INTO alarm(title, minutes, enable) VALUES( ?, ?, 1)",
                 new Object[]{
@@ -41,7 +41,7 @@ public class DbOp {
     /**
      * update
      */
-    public void updateBlack(AlarmObject alarmObject) {
+    public void updateAlarm(AlarmObject alarmObject) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
         db.execSQL("UPDATE alarm SET title=?, minutes=?, enable=? WHERE _id = ?",
                 new Object[]{
@@ -56,7 +56,7 @@ public class DbOp {
     /**
      * delete
      */
-    public void removeBlack(AlarmObject ao) {
+    public void removeAlarm(AlarmObject ao) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
         db.execSQL("DELETE FROM alarm WHERE _id = ?",
                 new Integer[]{
@@ -68,7 +68,7 @@ public class DbOp {
     /**
      * clear
      */
-    public void clearAllBlack() {
+    public void clearAllAlarm() {
         SQLiteDatabase db = mHelper.getWritableDatabase();
         db.execSQL("DELETE FROM alarm");
         db.close();
