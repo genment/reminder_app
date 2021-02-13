@@ -5,6 +5,15 @@ public class AlarmObject {
     private String title;
     private boolean enable;
     private int minutes; // how long?
+    private long lastAlarm;
+
+    public long getLastAlarm() {
+        return lastAlarm;
+    }
+
+    public void setLastAlarm(long lastAlarm) {
+        this.lastAlarm = lastAlarm;
+    }
 
     public void setId(int id) {
         this.id = id;

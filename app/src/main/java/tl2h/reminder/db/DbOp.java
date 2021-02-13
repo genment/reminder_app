@@ -30,7 +30,7 @@ public class DbOp {
      */
     public void addAlarm(AlarmObject ao) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
-        db.execSQL("INSERT INTO alarm(title, minutes, enable) VALUES( ?, ?, 1)",
+        db.execSQL("INSERT INTO alarm(title, minutes, lastAlarm, enable) VALUES( ?, ?, date('now'), 1)",
                 new Object[]{
                         ao.getTitle(),
                         ao.getMinutes()
@@ -43,10 +43,11 @@ public class DbOp {
      */
     public void updateAlarm(AlarmObject alarmObject) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
-        db.execSQL("UPDATE alarm SET title=?, minutes=?, enable=? WHERE _id = ?",
+        db.execSQL("UPDATE alarm SET title=?, minutes=?, lastAlarm=?, enable=? WHERE _id = ?",
                 new Object[]{
                         alarmObject.getTitle(),
                         alarmObject.getMinutes(),
+                        alarmObject.getLastAlarm(),
                         alarmObject.isEnable() ? 1 : 0,
                         alarmObject.getId()
                 });
@@ -86,9 +87,18 @@ public class DbOp {
     /**
      * update minutes
      */
-    public void updateCount(int id, int minutes) {
+    public void updateMinutes(int id, int minutes) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
         db.execSQL("UPDATE alarm SET minutes=? WHERE _id = ?", new Integer[]{minutes, id});
+        db.close();
+    }
+
+    /**
+     * update lastAlarm
+     */
+    public void updateLastAlarm(int id, int minutes) {
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        db.execSQL("UPDATE alarm SET lastAlarm=date('now') WHERE _id = ?", new Integer[]{id});
         db.close();
     }
 
@@ -158,7 +168,8 @@ public class DbOp {
         entity.setId(cursor.getInt(0));
         entity.setTitle(cursor.getString(1));
         entity.setMinutes(cursor.getInt(2));
-        entity.setEnable(cursor.getInt(3) == 1);
+        entity.setLastAlarm(cursor.getInt(3));
+        entity.setEnable(cursor.getInt(4) == 1);
 
         if (closeCursor)
             cursor.close();

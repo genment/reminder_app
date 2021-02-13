@@ -18,7 +18,7 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // alarm table
-        db.execSQL("CREATE TABLE alarm (_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, minutes INT, enable INT)");
+        db.execSQL("CREATE TABLE alarm (_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, minutes INT, lastAlarm INT, enable INT)");
     }
 
     @Override
